@@ -8,7 +8,17 @@ fun Fragment.showProgressDialog(): AlertDialog? {
     return if (context != null) {
         AlertDialog.Builder(context!!, R.style.AFUtilProgressBarStyle)
             .setCancelable(false)
-            .setView(R.layout.af_util_layout_dialog_progress)
+            .setView(R.layout.dialog_loading)
+            .show()
+    } else null
+}
+
+fun Fragment.showErrorDialog(message: String): AlertDialog? {
+    return if (context != null) {
+        AlertDialog.Builder(context!!)
+            .setTitle(R.string.error)
+            .setMessage(message)
+            .setCancelable(true)
             .show()
     } else null
 }

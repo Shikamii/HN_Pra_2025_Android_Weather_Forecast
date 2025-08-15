@@ -1,12 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <!-- Weather Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutWeatherHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/broadcast_title" />
+        android:layout_height="wrap_content"
+        android:background="@color/weather_header_background"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <!-- Location -->
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_12"
+            android:text="Ha Noi, Viet Nam"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_22"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/icSearch"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_marginStart="@dimen/dp_8"
+            android:src="@drawable/ic_search_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <!-- Temperature Layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/tvLocation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="@dimen/dp_6">
+
+            <TextView
+                android:id="@+id/tvTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3°C"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_56"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivWeatherIcon"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_60"
+                android:layout_marginStart="@dimen/dp_8"
+                android:src="@drawable/ic_cloud_and_sun"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTemperature"
+                app:layout_constraintBottom_toBottomOf="@id/tvTemperature" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTemperature">
+
+            <TextView
+                android:id="@+id/tvTabRecommend"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_selected"
+                android:gravity="center"
+                android:text="@string/today"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginEnd="@dimen/dp_10"/>
+
+            <TextView
+                android:id="@+id/tvTabArtist"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_unselected"
+                android:gravity="center"
+                android:text="@string/tomorrow"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginEnd="@dimen/dp_10"/>
+
+            <TextView
+                android:id="@+id/tvTabAllSongs"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:background="@drawable/bg_tab_unselected"
+                android:gravity="center"
+                android:text="@string/week"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDailyWeather"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="@dimen/dp_16"
+        android:paddingHorizontal="@dimen/dp_16"
+        tools:itemCount="6"
+        android:background="@color/background"
+        app:layout_constraintTop_toBottomOf="@+id/layoutWeatherHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_daily_weather" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -120,3 +120,9 @@ object WeatherEntry {
     const val NAME = "name"
     const val COD = "cod"
 }
+
+enum class DailyWeatherType {
+    TODAY,
+    TOMORROW,
+    WEEK
+}

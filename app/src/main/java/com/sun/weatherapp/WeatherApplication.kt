@@ -3,6 +3,7 @@ package com.sun.weatherapp
 import android.app.Application
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.sun.weatherapp.data.helper.PreferenceHelper
 import com.sun.weatherapp.data.reposiroty.source.LocationService
 import com.sun.weatherapp.data.reposiroty.source.local.LocationServiceImpl
 
@@ -14,6 +15,10 @@ class WeatherApplication : Application() {
 
     val locationService: LocationService by lazy {
         LocationServiceImpl(this, fusedLocationProviderClient)
+    }
+
+    val preferenceHelper: PreferenceHelper by lazy {
+        PreferenceHelper.getInstance(this)
     }
 
     companion object {

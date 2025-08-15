@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.sun.weatherapp.utils.showErrorDialog
 import com.sun.weatherapp.utils.showProgressDialog
 
 abstract class BaseFragment<VB : ViewBinding, P : BasePresenter<*>> : Fragment(), BaseContract.View {
@@ -18,6 +19,7 @@ abstract class BaseFragment<VB : ViewBinding, P : BasePresenter<*>> : Fragment()
     protected var presenter: P? = null
     
     private var progressDialog: AlertDialog? = null
+    private var errorDialog: AlertDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +44,9 @@ abstract class BaseFragment<VB : ViewBinding, P : BasePresenter<*>> : Fragment()
         
         progressDialog?.dismiss()
         progressDialog = null
+
+        errorDialog?.dismiss()
+        errorDialog = null
         
         _binding = null
         super.onDestroyView()
@@ -66,7 +71,7 @@ abstract class BaseFragment<VB : ViewBinding, P : BasePresenter<*>> : Fragment()
     override fun showError(message: String) {
         Log.e(this::class.simpleName, "Error: $message")
         context?.let {
-            Toast.makeText(it, message, Toast.LENGTH_LONG).show()
+            errorDialog = showErrorDialog(message)
         }
     }
 
