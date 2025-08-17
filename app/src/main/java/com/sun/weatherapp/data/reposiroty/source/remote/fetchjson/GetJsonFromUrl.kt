@@ -5,6 +5,7 @@ import android.os.Looper
 import com.sun.weatherapp.data.reposiroty.source.remote.OnResultListener
 import com.sun.weatherapp.utils.Constant
 import com.sun.weatherapp.utils.SimpleApiLogger
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -35,7 +36,15 @@ class GetJsonFromUrl<T> constructor(
 
             try {
                 val responseJson = getJsonStringFromUrl(fullUrl)
-                data = ParseDataWithJson().parseJsonToData(JSONObject(responseJson), keyEntity) as? T
+                val parsedData: T? = if (responseJson.trim().startsWith("[")) {
+                    // Trường hợp JSONArray
+                    ParseDataWithJson().parseJsonArrayToData(JSONArray(responseJson), keyEntity) as? T
+                } else {
+                    // Trường hợp JSONObject
+                    ParseDataWithJson().parseJsonToData(JSONObject(responseJson), keyEntity) as? T
+                }
+
+                data = parsedData
 
                 mHandler.post {
                     data?.let { 

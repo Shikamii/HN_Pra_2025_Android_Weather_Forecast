@@ -133,6 +133,12 @@
         tools:layout="@layout/fragment_notify" />
 
     <fragment
+        android:id="@+id/search_weather_fragment"
+        android:name="com.sun.weatherapp.screen.search_weather.SearchWeatherFragment"
+        android:label="Search Weather"
+        tools:layout="@layout/fragment_search_weather" />
+
+    <fragment
         android:id="@+id/pressure_details_fragment"
         android:name="com.sun.weatherapp.screen.pressure_detail.PressureDetailFragment"
         android:label="Pressure Details"

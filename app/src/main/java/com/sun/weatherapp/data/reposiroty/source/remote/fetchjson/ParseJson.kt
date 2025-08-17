@@ -1,6 +1,8 @@
 package com.sun.mvp.data.repository.source.remote.fetchjson
 
+import android.os.Parcelable
 import com.sun.weatherapp.data.model.*
+import kotlinx.parcelize.Parcelize
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -86,6 +88,17 @@ class ParseJson {
         },
         hourly = jsonObject.getJSONArray("hourly").parseHourlyWeatherList(),
         daily = jsonObject.getJSONArray(WeatherEntry.DAILY).parseDailyWeatherList()
+    )
+
+    fun parseCityJson(jsonObject: JSONObject) = City(
+        name = jsonObject.getString(WeatherEntry.NAME),
+        local_names = jsonObject.optJSONObject(WeatherEntry.LOCAL_NAMES)?.let { localNames ->
+            localNames.keys().asSequence().associateWith { localNames.getString(it) }
+        },
+        lat = jsonObject.getDouble(WeatherEntry.LAT),
+        lon = jsonObject.getDouble(WeatherEntry.LON),
+        country = jsonObject.getString(WeatherEntry.COUNTRY),
+        state = jsonObject.optString(WeatherEntry.STATE, "")
     )
 
     private fun JSONArray.parseHourlyWeatherList(): List<HourlyWeather> {

@@ -166,6 +166,16 @@ data class DailyFeelsLike(
     val morn: Double
 ) : Parcelable
 
+@Parcelize
+data class City(
+    val name: String,
+    val local_names: Map<String, String>? = null,
+    val lat: Double,
+    val lon: Double,
+    val country: String,
+    val state: String? = null
+) : Parcelable
+
 object WeatherEntry {
     const val COORD = "coord"
     const val LON = "lon"
@@ -235,6 +245,9 @@ object WeatherEntry {
     const val NIGHT = "night"
     const val EVE = "eve"
     const val MORN = "morn"
+    const val CITY = "city"
+    const val LOCAL_NAMES = "local_names"
+    const val STATE = "state"
 }
 
 enum class DailyWeatherType {

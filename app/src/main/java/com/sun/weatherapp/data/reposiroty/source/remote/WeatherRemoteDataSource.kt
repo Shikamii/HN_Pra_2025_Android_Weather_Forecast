@@ -1,6 +1,7 @@
 package com.sun.weatherapp.data.reposiroty.source.remote
 
 import com.sun.mvp.data.repository.source.remote.fetchjson.GetJsonFromUrl
+import com.sun.weatherapp.data.model.City
 import com.sun.weatherapp.data.model.WeatherEntry
 import com.sun.weatherapp.data.model.WeatherResponse
 import com.sun.weatherapp.data.model.WeatherDetailResponse
@@ -31,6 +32,15 @@ class WeatherRemoteDataSource : WeatherDataSource.Remote {
         GetJsonFromUrl(
             urlString = url,
             keyEntity = WeatherEntry.WEATHER_DETAIL,
+            listener = listener
+        )
+    }
+
+    override fun getCurrentWeatherByCityName(cityName: String, listener: OnResultListener<List<City>>) {
+        val url = "${Constant.GEO_API_ENDPOINT}?q=$cityName"
+        GetJsonFromUrl(
+            urlString = url,
+            keyEntity = WeatherEntry.WEATHER,
             listener = listener
         )
     }

@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/img_background_search_weather"
     tools:context=".screen.search_weather.SearchWeatherFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/dp_12">
 
 
@@ -18,6 +20,8 @@
         android:hint="@string/search_location"
         android:drawableStart="@drawable/ic_search_dark"
         android:paddingHorizontal="12dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
         android:layout_marginBottom="16dp" />
 
     <!-- Vị trí hiện tại -->
@@ -33,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@drawable/bg_item_search_weather"
         android:padding="16dp">
 
         <LinearLayout
@@ -79,6 +84,7 @@
 
     <!-- Tìm kiếm gần đây -->
     <TextView
+        android:id="@+id/tvRecentSearches"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/recent_searches"
@@ -87,51 +93,15 @@
         android:layout_marginBottom="8dp"
         android:textSize="@dimen/text_size_body_small" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvWeather"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        tools:itemCount="6"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecentSearches"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_search_weather" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvCityRecent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_city_danang"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_size_body_medium"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvCountryRecent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_country_vietnam"
-                android:textColor="@android:color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvDescRecent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sample_weather_desc_recent"
-                android:textColor="@android:color/white"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTempRecent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sample_temp_recent"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_temperature_large"
-            android:textStyle="bold" />
-    </LinearLayout>
 </LinearLayout>

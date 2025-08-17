@@ -1,5 +1,6 @@
 package com.sun.weatherapp.data.reposiroty.source
 
+import com.sun.weatherapp.data.model.City
 import com.sun.weatherapp.data.model.WeatherResponse
 import com.sun.weatherapp.data.model.WeatherDetailResponse
 import com.sun.weatherapp.data.reposiroty.source.remote.OnResultListener
@@ -19,5 +20,6 @@ interface WeatherDataSource {
     interface Remote {
         fun getCurrentWeather(lat: Double, lon: Double, listener: OnResultListener<WeatherResponse>)
         fun getWeatherDetail(lat: Double, lon: Double, listener: OnResultListener<WeatherDetailResponse>)
+        fun getCurrentWeatherByCityName(cityName: String, listener: OnResultListener<List<City>>)
     }
 }

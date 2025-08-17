@@ -1,51 +1,54 @@
 package com.sun.weatherapp.screen.broadcast
 
+import android.location.Location
+import com.sun.weatherapp.data.model.DailyWeather
 import com.sun.weatherapp.data.model.DailyWeatherType
+import com.sun.weatherapp.data.model.WeatherDetailResponse
+import com.sun.weatherapp.data.reposiroty.LocationRepository
+import com.sun.weatherapp.data.reposiroty.WeatherRepository
+import com.sun.weatherapp.data.reposiroty.source.remote.OnResultListener
 import com.sun.weatherapp.screen.base.BasePresenter
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class BroadcastPresenter : BasePresenter<BroadcastContract.View>(), BroadcastContract.Presenter {
+class BroadcastPresenter(
+    private val locationRepository: LocationRepository,
+    private val weatherRepository: WeatherRepository,
+) : BasePresenter<BroadcastContract.View>(), BroadcastContract.Presenter {
 
     private var currentTab = DailyWeatherType.TODAY
-    private var isInitialLoad = true
 
     override fun loadBroadcasts(tabType: DailyWeatherType) {
         currentTab = tabType
 
-        presenterScope.launch {
-            try {
-                if (isInitialLoad) {
-                    getView()?.showLoading()
-                }
+        getView()?.updateSelectedTab(tabType)
+        getView()?.showLoading()
+        locationRepository.getCurrentLocation(object : OnResultListener<Location> {
+            override fun onSuccess(data: Location) {
+                weatherRepository.getWeatherDetail(data.latitude, data.longitude, object : OnResultListener<WeatherDetailResponse> {
+                    override fun onSuccess(data: WeatherDetailResponse) {
+                        getView()?.hideLoading()
+                        val listDailyWeather: List<DailyWeather> = when (tabType) {
+                            DailyWeatherType.TODAY -> listOf(data.daily[0])
+                            DailyWeatherType.TOMORROW -> listOf(data.daily[1])
+                            DailyWeatherType.WEEK -> data.daily
+                        }
 
-                getView()?.updateSelectedTab(tabType)
-                // Simulate loading data
-                delay(500)
-                val listDailyWeather = when (tabType) {
-                    DailyWeatherType.TODAY -> {
-                        listOf(sampleWeatherList[0])
+                        getView()?.showBroadcasts(listDailyWeather)
                     }
 
-                    DailyWeatherType.TOMORROW -> {
-                        listOf(sampleWeatherList[1])
+
+                    override fun onError(exception: java.lang.Exception?) {
+                        getView()?.hideLoading()
+                        getView()?.showError(exception?.message ?: "Unknown error")
                     }
-
-                    DailyWeatherType.WEEK -> {
-                        sampleWeatherList
-                    }
-                }
-                getView()?.showBroadcasts(listDailyWeather)
-
-                getView()?.hideLoading()
-                isInitialLoad = false
-
-            } catch (e: Exception) {
-                getView()?.hideLoading()
-                getView()?.showError("Không thể tải dữ liệu phát thanh: ${e.message}")
-                isInitialLoad = false
+                })
             }
-        }
+
+            override fun onError(exception: Exception?) {
+                getView()?.hideLoading()
+                getView()?.showError(exception?.message ?: "Failed to get current location")
+            }
+        })
     }
 
     override fun onTabSelected(tabType: DailyWeatherType) {
