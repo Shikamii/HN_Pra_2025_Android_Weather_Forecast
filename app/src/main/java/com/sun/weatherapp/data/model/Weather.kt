@@ -255,3 +255,30 @@ enum class DailyWeatherType {
     TOMORROW,
     WEEK
 }
+
+// Extension function to validate and get daily weather data
+fun WeatherDetailResponse.validateAndGetDailyWeather(tabType: DailyWeatherType): List<DailyWeather> {
+    // Check if daily data is null or empty
+    if (daily.isEmpty()) {
+        throw IllegalStateException("Daily weather data is not available")
+    }
+
+    return when (tabType) {
+        DailyWeatherType.TODAY -> {
+            if (daily.isEmpty()) {
+                throw IllegalStateException("No weather data available for today")
+            }
+            listOf(daily[0])
+        }
+        DailyWeatherType.TOMORROW -> {
+            if (daily.size < 2) {
+                throw IllegalStateException("No weather data available for tomorrow")
+            }
+            listOf(daily[1])
+        }
+
+        DailyWeatherType.WEEK -> {
+            daily.take(7)
+        }
+    }
+}

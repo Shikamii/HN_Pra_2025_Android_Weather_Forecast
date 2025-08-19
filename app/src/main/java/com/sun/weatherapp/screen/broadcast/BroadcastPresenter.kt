@@ -4,6 +4,7 @@ import android.location.Location
 import com.sun.weatherapp.data.model.DailyWeather
 import com.sun.weatherapp.data.model.DailyWeatherType
 import com.sun.weatherapp.data.model.WeatherDetailResponse
+import com.sun.weatherapp.data.model.validateAndGetDailyWeather
 import com.sun.weatherapp.data.reposiroty.LocationRepository
 import com.sun.weatherapp.data.reposiroty.WeatherRepository
 import com.sun.weatherapp.data.reposiroty.source.remote.OnResultListener
@@ -22,31 +23,43 @@ class BroadcastPresenter(
 
         getView()?.updateSelectedTab(tabType)
         getView()?.showLoading()
+
         locationRepository.getCurrentLocation(object : OnResultListener<Location> {
             override fun onSuccess(data: Location) {
                 weatherRepository.getWeatherDetail(data.latitude, data.longitude, object : OnResultListener<WeatherDetailResponse> {
                     override fun onSuccess(data: WeatherDetailResponse) {
                         getView()?.hideLoading()
-                        val listDailyWeather: List<DailyWeather> = when (tabType) {
-                            DailyWeatherType.TODAY -> listOf(data.daily[0])
-                            DailyWeatherType.TOMORROW -> listOf(data.daily[1])
-                            DailyWeatherType.WEEK -> data.daily
+                        try {
+                            val listDailyWeather: List<DailyWeather> =
+                                data.validateAndGetDailyWeather(tabType)
+                            getView()?.showBroadcasts(listDailyWeather)
+                            if (tabType == DailyWeatherType.WEEK) {
+                                if (listDailyWeather.size < 7) {
+                                    getView()?.showError("Only ${listDailyWeather.size}/7 days available")
+                                }
+                            }
+                        } catch (e: IllegalStateException) {
+                            // Show specific message for validation errors
+                            getView()?.showError(e.message ?: "Invalid weather data")
+                        } catch (e: Exception) {
+                            // Show generic error message for other exceptions
+                            getView()?.showError("Error processing weather data: ${e.message}")
                         }
-
-                        getView()?.showBroadcasts(listDailyWeather)
                     }
-
 
                     override fun onError(exception: java.lang.Exception?) {
                         getView()?.hideLoading()
-                        getView()?.showError(exception?.message ?: "Unknown error")
+                        val errorMessage =
+                            exception?.message ?: "Unable to load weather data from server"
+                        getView()?.showError(errorMessage)
                     }
                 })
             }
 
             override fun onError(exception: Exception?) {
                 getView()?.hideLoading()
-                getView()?.showError(exception?.message ?: "Failed to get current location")
+                val errorMessage = exception?.message ?: "Unable to determine current location"
+                getView()?.showError(errorMessage)
             }
         })
     }
@@ -58,11 +71,14 @@ class BroadcastPresenter(
     }
 
     override fun loadWeatherInfo() {
+        getView()?.showLoading()
         presenterScope.launch {
             try {
+                getView()?.hideLoading()
                 getView()?.showWeatherInfo("Ha Noi, Viet Nam", "3°C")
             } catch (e: Exception) {
-                getView()?.showError("Không thể tải thông tin thời tiết")
+                getView()?.hideLoading()
+                getView()?.showError(e.message ?: "Unable to load weather information")
             }
         }
     }
