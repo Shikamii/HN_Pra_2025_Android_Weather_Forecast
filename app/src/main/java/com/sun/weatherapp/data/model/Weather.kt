@@ -1,7 +1,10 @@
 package com.sun.weatherapp.data.model
+
 import kotlinx.parcelize.Parcelize
 
 import android.os.Parcelable
+import android.content.Context
+import com.sun.weatherapp.R
 
 @Parcelize
 data class WeatherResponse(
@@ -222,7 +225,7 @@ object WeatherEntry {
     const val TIMEZONE = "timezone"
     const val NAME = "name"
     const val COD = "cod"
-    
+
     // OneCall API Weather Detail entries
     const val WEATHER_DETAIL = "weather_detail"
     const val CURRENT = "current"
@@ -257,22 +260,26 @@ enum class DailyWeatherType {
 }
 
 // Extension function to validate and get daily weather data
-fun WeatherDetailResponse.validateAndGetDailyWeather(tabType: DailyWeatherType): List<DailyWeather> {
+fun WeatherDetailResponse.validateAndGetDailyWeather(
+    tabType: DailyWeatherType,
+    context: Context
+): List<DailyWeather> {
     // Check if daily data is null or empty
     if (daily.isEmpty()) {
-        throw IllegalStateException("Daily weather data is not available")
+        throw IllegalStateException(context.getString(R.string.error_daily_weather_not_available))
     }
 
     return when (tabType) {
         DailyWeatherType.TODAY -> {
             if (daily.isEmpty()) {
-                throw IllegalStateException("No weather data available for today")
+                throw IllegalStateException(context.getString(R.string.error_no_weather_today))
             }
             listOf(daily[0])
         }
+
         DailyWeatherType.TOMORROW -> {
             if (daily.size < 2) {
-                throw IllegalStateException("No weather data available for tomorrow")
+                throw IllegalStateException(context.getString(R.string.error_no_weather_tomorrow))
             }
             listOf(daily[1])
         }

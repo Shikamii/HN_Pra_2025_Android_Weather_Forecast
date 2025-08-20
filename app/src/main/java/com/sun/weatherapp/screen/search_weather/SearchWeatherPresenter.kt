@@ -4,6 +4,8 @@ import com.sun.weatherapp.data.model.City
 import com.sun.weatherapp.data.reposiroty.WeatherRepository
 import com.sun.weatherapp.data.reposiroty.source.remote.OnResultListener
 import com.sun.weatherapp.screen.base.BasePresenter
+import com.sun.weatherapp.WeatherApplication
+import com.sun.weatherapp.R
 
 class SearchWeatherPresenter(
     private val weatherRepository: WeatherRepository,
@@ -16,9 +18,11 @@ class SearchWeatherPresenter(
             }
 
             override fun onError(exception: Exception?) {
-                getView()?.showError(exception?.message ?: "Failed to search for city")
+                val errorMessage = exception?.message
+                    ?: WeatherApplication.getInstance()
+                        .getString(R.string.error_failed_to_search_city)
+                getView()?.showError(errorMessage)
             }
         })
     }
-
 }

@@ -150,4 +150,20 @@
     <string name="sun_set">Mặt trời lặn</string>
     <string name="moon_rise">Mặt trăng mọc</string>
     <string name="moon_set">Mặt trăng lặn</string>
+
+    <!-- Weather validation error messages -->
+    <string name="error_daily_weather_not_available">Daily weather data is not available</string>
+    <string name="error_no_weather_today">No weather data available for today</string>
+    <string name="error_no_weather_tomorrow">No weather data available for tomorrow</string>
+
+    <!-- Broadcast Presenter error messages -->
+    <string name="error_unable_to_load_weather_data">Unable to load weather data from server</string>
+    <string name="error_unable_to_determine_location">Unable to determine current location</string>
+    <string name="error_unable_to_load_weather_info">Unable to load weather information</string>
+    <string name="error_invalid_weather_data">Invalid weather data</string>
+    <string name="error_processing_weather_data">Error processing weather data: %s</string>
+    <string name="unknown_location">Unknown Location</string>
+
+    <!-- Search Weather error messages -->
+    <string name="error_failed_to_search_city">Failed to search for city</string>
 </resources>
