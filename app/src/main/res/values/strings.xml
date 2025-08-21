@@ -166,4 +166,10 @@
 
     <!-- Search Weather error messages -->
     <string name="error_failed_to_search_city">Failed to search for city</string>
+
+    <!-- Temperature Chart and Rain Probability -->
+    <string name="temperature_chart_24h">Biểu đồ nhiệt độ 24 giờ</string>
+    <string name="rain_probability">Khả năng mưa</string>
+    <string name="temperature_24h">Nhiệt độ 24 giờ</string>
+    <string name="hour_unit">Giờ</string>
 </resources>

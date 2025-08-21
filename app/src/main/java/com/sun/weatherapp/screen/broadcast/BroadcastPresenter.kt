@@ -35,7 +35,7 @@ class BroadcastPresenter(
                         try {
                             val listDailyWeather: List<DailyWeather> =
                                 data.validateAndGetDailyWeather(tabType, WeatherApplication.getInstance())
-                            getView()?.showBroadcasts(listDailyWeather)
+                            getView()?.showBroadcastsWithHourlyData(listDailyWeather, data)
                         } catch (e: IllegalStateException) {
                             // Show specific message for validation errors
                             getView()?.showError(

@@ -9,6 +9,7 @@ import com.sun.weatherapp.R
 import com.sun.weatherapp.WeatherApplication
 import com.sun.weatherapp.data.model.DailyWeather
 import com.sun.weatherapp.data.model.DailyWeatherType
+import com.sun.weatherapp.data.model.WeatherDetailResponse
 import com.sun.weatherapp.data.reposiroty.LocationRepository
 import com.sun.weatherapp.data.reposiroty.WeatherRepository
 import com.sun.weatherapp.data.reposiroty.source.local.LocationLocalDataSource
@@ -140,8 +141,12 @@ class BroadcastFragment : BaseFragment<FragmentBroadcastBinding, BroadcastPresen
         }
     }
 
-    override fun showBroadcasts(broadcasts: List<DailyWeather>) {
-        dailyWeatherAdapter.submitList(broadcasts)
+
+    override fun showBroadcastsWithHourlyData(
+        broadcasts: List<DailyWeather>,
+        weatherDetailResponse: WeatherDetailResponse
+    ) {
+        dailyWeatherAdapter.submitListWithHourlyData(broadcasts, weatherDetailResponse)
     }
 
     override fun updateSelectedTab(tabType: DailyWeatherType) {
@@ -158,6 +163,6 @@ class BroadcastFragment : BaseFragment<FragmentBroadcastBinding, BroadcastPresen
     }
 
     private fun clearAdapterData() {
-        dailyWeatherAdapter.submitList(emptyList())
+        dailyWeatherAdapter.submitListWithHourlyData(emptyList(), null)
     }
 }
