@@ -2,7 +2,10 @@ package com.sun.weatherapp.screen.search_weather
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sun.weatherapp.R
 import com.sun.weatherapp.data.model.City
 import com.sun.weatherapp.data.reposiroty.WeatherRepository
 import com.sun.weatherapp.data.reposiroty.source.local.WeatherLocalDataSource
@@ -54,6 +57,15 @@ class SearchWeatherFragment : BaseFragment<FragmentSearchWeatherBinding, SearchW
                     false
                 }
             }
+
+            val parentLayout = root as android.widget.LinearLayout
+            if (parentLayout.childCount >= 3) {
+                val currentLocationLayout =
+                    parentLayout.getChildAt(2) as? android.widget.LinearLayout
+                currentLocationLayout?.setOnClickListener {
+                    navigateToCurrentLocation()
+                }
+            }
         }
     }
 
@@ -63,12 +75,34 @@ class SearchWeatherFragment : BaseFragment<FragmentSearchWeatherBinding, SearchW
 
     private fun setupRecyclerViews() {
         searchWeatherAdapter = SearchWeatherAdapter { city ->
-            presenter?.onSearchQuery(city.name)
+            navigateToSearchResult(city)
         }
 
         binding.rvWeather.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = searchWeatherAdapter
         }
+    }
+
+    private fun navigateToCurrentLocation() {
+        // Create a City object for current location using the displayed data
+        binding.apply {
+            val currentCity = City(
+                name = tvCityCurrent.text.toString(),
+                lat = 0.0, // Default values - will be handled by the destination fragment
+                lon = 0.0, // Default values - will be handled by the destination fragment
+                country = tvCountryCurrent.text.toString()
+            )
+            navigateToSearchResult(currentCity)
+        }
+    }
+    private fun navigateToSearchResult(city: City) {
+        val bundle = Bundle().apply {
+            putParcelable("city", city)
+        }
+        findNavController().navigate(
+            R.id.action_search_weather_fragment_to_search_result_fragment,
+            bundle
+        )
     }
 }

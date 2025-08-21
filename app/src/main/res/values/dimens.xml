@@ -69,6 +69,7 @@
     <dimen name="sp_48">48sp</dimen>
     <dimen name="sp_56">56sp</dimen>
     <dimen name="sp_74">74sp</dimen>
+    <dimen name="sp_88">88sp</dimen>
 
     <dimen name="af_util_common_zero">0dp</dimen>
 

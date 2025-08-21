@@ -40,7 +40,11 @@
         android:id="@+id/broadcast_fragment"
         android:name="com.sun.weatherapp.screen.broadcast.BroadcastFragment"
         android:label="@string/nav_broadcast"
-        tools:layout="@layout/fragment_broadcast" />
+        tools:layout="@layout/fragment_broadcast">
+        <action
+            android:id="@+id/action_broadcast_fragment_to_search_weather_fragment"
+            app:destination="@id/search_weather_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/music_fragment"
@@ -136,7 +140,11 @@
         android:id="@+id/search_weather_fragment"
         android:name="com.sun.weatherapp.screen.search_weather.SearchWeatherFragment"
         android:label="Search Weather"
-        tools:layout="@layout/fragment_search_weather" />
+        tools:layout="@layout/fragment_search_weather">
+        <action
+            android:id="@+id/action_search_weather_fragment_to_search_result_fragment"
+            app:destination="@id/search_result_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/pressure_details_fragment"
@@ -178,6 +186,20 @@
         android:id="@+id/search_fragment"
         android:name="com.sun.weatherapp.screen.search_weather.SearchWeatherFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search_weather" />
+        tools:layout="@layout/fragment_search_weather">
+        <action
+            android:id="@+id/action_search_fragment_to_search_result_fragment"
+            app:destination="@id/search_result_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_result_fragment"
+        android:name="com.sun.weatherapp.screen.search_result.SearchResultFragment"
+        android:label="Weather Details"
+        tools:layout="@layout/fragment_search_result">
+        <argument
+            android:name="city"
+            app:argType="com.sun.weatherapp.data.model.City" />
+    </fragment>
 
 </navigation>

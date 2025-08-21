@@ -172,4 +172,25 @@
     <string name="rain_probability">Khả năng mưa</string>
     <string name="temperature_24h">Nhiệt độ 24 giờ</string>
     <string name="hour_unit">Giờ</string>
+
+    <!-- Search Result Screen -->
+    <string name="day_night">Ngày %1$s° Đêm %2$s°</string>
+    <string name="forecast_3_days">Dự báo 3 ngày</string>
+    <string name="sunday">Chủ nhật</string>
+    <string name="monday">Thứ hai</string>
+    <string name="tuesday">Thứ ba</string>
+    <string name="wednesday">Thứ tư</string>
+    <string name="thursday">Thứ năm</string>
+    <string name="friday">Thứ sáu</string>
+    <string name="saturday">Thứ bảy</string>
+    <string name="day_after_tomorrow">Ngày kia</string>
+    <string name="unknown_day">Không xác định</string>
+    <string name="clear_weather">Clear</string>
+    <string name="feels_like_temp">Cảm giác như %1$s°</string>
+    <string name="humidity_label">Độ ẩm</string>
+    <string name="wind_label">Gió</string>
+    <string name="sunrise_label">Ban ngày</string>
+    <string name="sunset_label">Ban đêm</string>
+    <string name="empty_forecast_data">Không có dữ liệu dự báo</string>
+    <string name="current_location_label">Vị trí hiện tại</string>
 </resources>
